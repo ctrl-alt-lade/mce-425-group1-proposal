@@ -1,0 +1,777 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MCE 425 Project Proposal — Smart Thermal Management System</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,700;1,700&family=Fira+Code:wght@400;500;600&display=swap');
+        
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: #F5F7FA;
+            overflow: hidden;
+            width: 100vw;
+            height: 100vh;
+            color: #0C3B6E;
+        }
+        .font-playfair { font-family: 'Playfair Display', serif; }
+        .font-dmsans { font-family: 'DM Sans', sans-serif; }
+        .font-fira { font-family: 'Fira Code', monospace; }
+        
+        /* Light Theme Technical Circuit Grid Pattern */
+        .bg-circuit {
+            background-image: 
+                linear-gradient(to right, rgba(26, 95, 168, 0.05) 1px, transparent 1px),
+                linear-gradient(to bottom, rgba(26, 95, 168, 0.05) 1px, transparent 1px);
+            background-size: 40px 40px;
+        }
+
+        /* Strict 16:9 Slide Frame & Transitions */
+        .slide {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            opacity: 0;
+            transition: opacity 0.35s ease-in-out;
+            pointer-events: none;
+            z-index: 0;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 4.5rem 5rem 5rem 5rem;
+        }
+        .slide.active {
+            opacity: 1;
+            pointer-events: auto;
+            z-index: 10;
+        }
+
+        /* Light Mode Code / Telemetry Cell */
+        .jupyter-cell {
+            background-color: #FFFFFF;
+            border-left: 4px solid #1A5FA8;
+            padding: 1.25rem 1.5rem;
+            border-radius: 0 0.25rem 0.25rem 0;
+            box-shadow: 0 2px 6px rgba(12, 59, 110, 0.06);
+            color: #24292e;
+        }
+        .kw { color: #0000FF; font-weight: 600; }
+        .fn { color: #795E26; }
+        .cm { color: #008000; font-style: italic; }
+        .nu { color: #098658; }
+    </style>
+</head>
+<body class="text-[#0C3B6E] font-dmsans select-none md:select-auto">
+
+    <!-- Global Technical Grid Background -->
+    <div class="fixed inset-0 bg-circuit z-0 pointer-events-none"></div>
+    
+    <!-- Top Accent Bar -->
+    <div class="fixed top-0 left-0 w-full h-1 bg-[#1A5FA8] z-50"></div>
+
+    <!-- Top Left Slide Section Indicator -->
+    <div class="fixed top-6 left-10 z-50 flex items-center gap-3">
+        <span id="slideBadge" class="bg-[#0C3B6E] text-white font-fira text-xs px-2.5 py-1 rounded-sm font-medium tracking-wider">01 / 11</span>
+        <span id="slideSectionTitle" class="text-xs font-bold uppercase tracking-widest text-[#1A5FA8] hidden sm:inline">Project Overview</span>
+    </div>
+
+    <!-- Top Right Group Branding Bar -->
+    <div class="fixed top-6 right-10 z-50 text-right opacity-95">
+        <h2 class="text-[#0C3B6E] font-playfair font-bold text-2xl tracking-wide leading-none">BUI-MCE 425</h2>
+        <div class="w-14 h-[2px] bg-[#1A5FA8] ml-auto my-1"></div>
+        <p class="text-[#1A5FA8] font-dmsans text-[10px] tracking-widest font-bold uppercase">Group 1 (10 Members)</p>
+    </div>
+
+    <!-- Slide Navigation Controls (Bottom Bar) -->
+    <div class="fixed bottom-6 left-10 right-10 z-50 flex items-center justify-between pointer-events-none">
+        <!-- Progress Dots -->
+        <div id="slideDots" class="flex items-center gap-2 pointer-events-auto bg-white/90 backdrop-blur-sm px-3 py-2 rounded border border-[#A8C4DC] shadow-sm">
+        </div>
+
+        <!-- Prev / Next Buttons -->
+        <div class="flex items-center gap-3 pointer-events-auto">
+            <span class="text-xs text-[#1A5FA8] font-fira hidden lg:inline mr-2">← → keys or click</span>
+            <button onclick="prevSlide()" class="px-4 py-2 bg-white border border-[#A8C4DC] rounded hover:bg-[#F5F7FA] transition text-[#0C3B6E] shadow-sm font-medium text-sm">
+                ← Prev
+            </button>
+            <button onclick="nextSlide()" class="px-4 py-2 bg-white border border-[#A8C4DC] rounded hover:bg-[#F5F7FA] transition text-[#0C3B6E] shadow-sm font-medium text-sm">
+                Next →
+            </button>
+        </div>
+    </div>
+
+    <!-- ================= SLIDES CONTAINER ================= -->
+    <div id="presentation" class="relative w-full h-full">
+
+        <!-- SLIDE 1: Title & Executive Overview -->
+        <div class="slide active" data-section="Project Proposal">
+            <div class="w-full max-w-5xl grid grid-cols-12 gap-12 items-center">
+                <div class="col-span-7">
+                    <p class="text-[#1A5FA8] font-medium text-sm tracking-widest uppercase mb-2">BUI-MCE 425 • Computer Hardware Engineering</p>
+                    <h1 class="font-playfair font-bold text-5xl leading-tight text-[#0C3B6E] mb-4">
+                        Smart Thermal Management System for Server Racks
+                    </h1>
+                    <p class="text-xl text-[#1A5FA8] font-medium mb-6">
+                        Closed-Loop Environmental Control &amp; Real-Time Telemetry Prototype
+                    </p>
+                    <div class="bg-white border-l-4 border-[#1A5FA8] p-5 text-sm text-[#0C3B6E] shadow-sm leading-relaxed">
+                        <p class="font-bold mb-1">Executive Summary:</p>
+                        <p>
+                            Data centers suffer hardware degradation when internal rack temperatures exceed safe limits. This project builds a miniature, self-regulating server rack enclosure powered by a <strong>Raspberry Pi 4 (1GB)</strong> that monitors internal thermodynamics and actuates dual 12V exhaust fans via hysteresis control while streaming live metrics to a local FastAPI dashboard.
+                        </p>
+                    </div>
+                </div>
+                <div class="col-span-5">
+                    <div class="relative h-[360px] w-full bg-white flex flex-col items-center justify-center overflow-hidden rounded-sm shadow-sm border border-[#A8C4DC] p-4">
+                        <img 
+                            src="https://hub360.cc/web/image/product.template/10603/image_1920?unique=4e07be9" 
+                            alt="Raspberry Pi 4 (1GB RAM) - Hub360" 
+                            class="w-full h-64 object-contain"
+                        >
+                        <div class="w-full mt-3 pt-3 border-t border-gray-100 flex justify-between items-center text-xs font-fira text-[#1A5FA8]">
+                            <span>CORE: RASPBERRY PI 4 (1GB)</span>
+                            <span class="font-bold text-[#0C3B6E]">₦149,500 TOTAL BOM</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- SLIDE 2: Project Aim & Core Objectives -->
+        <div class="slide" data-section="Aim & Objectives">
+            <div class="w-full max-w-5xl">
+                <h2 class="font-playfair font-bold text-4xl text-[#0C3B6E] mb-2">Project Aim &amp; Core Objectives</h2>
+                <p class="text-[#1A5FA8] mb-6 uppercase tracking-widest text-sm font-bold">Simulating Modern Data-Center HVAC Principles</p>
+
+                <!-- Primary Aim Banner -->
+                <div class="bg-[#0C3B6E] text-white p-5 rounded-sm shadow-sm border-l-4 border-[#1A5FA8] mb-8">
+                    <p class="text-xs font-fira uppercase tracking-widest text-[#A8C4DC] mb-1">Primary Aim</p>
+                    <p class="text-base leading-relaxed">
+                        To design and implement an automated, closed-loop thermal management system that monitors and regulates the internal environment of a miniaturized server rack enclosure—demonstrating real-time hardware actuation, optical power isolation, and asynchronous web telemetry.
+                    </p>
+                </div>
+
+                <!-- 3 Pillars Grid -->
+                <div class="grid grid-cols-3 gap-6">
+                    <div class="bg-white border border-[#A8C4DC] p-5 rounded-sm shadow-sm">
+                        <p class="text-[#1A5FA8] font-bold uppercase text-xs mb-2">Objective 01 • Sensing</p>
+                        <h3 class="font-playfair font-bold text-xl text-[#0C3B6E] mb-2">Hysteresis Regulation</h3>
+                        <p class="text-sm leading-relaxed text-[#0C3B6E]">
+                            Poll temperature and humidity via a digital <span class="font-fira text-[#1A5FA8]">DHT22</span> sensor. Use a deadband hysteresis loop (ON at <strong>32°C</strong>, OFF at <strong>28°C</strong>) to eliminate relay chattering.
+                        </p>
+                    </div>
+                    <div class="bg-white border border-[#A8C4DC] p-5 rounded-sm shadow-sm">
+                        <p class="text-[#1A5FA8] font-bold uppercase text-xs mb-2">Objective 02 • Power</p>
+                        <h3 class="font-playfair font-bold text-xl text-[#0C3B6E] mb-2">Isolated 12V Switching</h3>
+                        <p class="text-sm leading-relaxed text-[#0C3B6E]">
+                            Bridge the Pi’s <span class="font-fira text-[#1A5FA8]">3.3V GPIO</span> with a dedicated <span class="font-fira text-[#1A5FA8]">12V 5A rail</span> using an optoisolated 4-channel relay to drive dual fans without voltage brownouts.
+                        </p>
+                    </div>
+                    <div class="bg-white border border-[#A8C4DC] p-5 rounded-sm shadow-sm">
+                        <p class="text-[#1A5FA8] font-bold uppercase text-xs mb-2">Objective 03 • Telemetry</p>
+                        <h3 class="font-playfair font-bold text-xl text-[#0C3B6E] mb-2">FastAPI &amp; MQTT Portal</h3>
+                        <p class="text-sm leading-relaxed text-[#0C3B6E]">
+                            Decouple hardware polling from visualization using a local <span class="font-fira text-[#1A5FA8]">MQTT</span> broker and <span class="font-fira text-[#1A5FA8]">FastAPI</span> web dashboard with live manual override controls.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- SLIDE 3: Hardware Procurement (Core Control & Actuation) -->
+        <div class="slide" data-section="Hardware Sourcing (Core)">
+            <div class="w-full max-w-5xl">
+                <h2 class="font-playfair font-bold text-4xl text-[#0C3B6E] mb-2">Hardware Procurement (Core)</h2>
+                <p class="text-[#1A5FA8] mb-8 uppercase tracking-widest text-sm font-bold">Logic, Sensing &amp; Actuation Sourced from Hub360</p>
+                
+                <div class="grid grid-cols-2 gap-6">
+                    <!-- Raspberry Pi 4 -->
+                    <div class="bg-white border border-[#A8C4DC] p-5 flex gap-5 items-center shadow-sm">
+                        <div class="w-24 h-24 bg-[#F5F7FA] border border-[#A8C4DC] flex-shrink-0 flex items-center justify-center overflow-hidden p-1">
+                            <img src="https://hub360.cc/web/image/product.template/10603/image_1920?unique=4e07be9" alt="Raspberry Pi 4" class="object-contain w-full h-full">
+                        </div>
+                        <div>
+                            <h3 class="font-bold text-lg text-[#0C3B6E]">Raspberry Pi 4 (1GB RAM)</h3>
+                            <p class="text-xs text-[#1A5FA8] uppercase font-bold mb-1">The Brain • ₦96,000</p>
+                            <p class="text-sm leading-snug">Runs headless Raspberry Pi OS Lite (&lt;150MB idle RAM), hosting Python logic, MQTT, and FastAPI while saving ₦64k over the 2GB model.</p>
+                        </div>
+                    </div>
+
+                    <!-- DHT22 Sensor -->
+                    <div class="bg-white border border-[#A8C4DC] p-5 flex gap-5 items-center shadow-sm">
+                        <div class="w-24 h-24 bg-[#F5F7FA] border border-[#A8C4DC] flex-shrink-0 flex items-center justify-center overflow-hidden p-1">
+                            <img src="https://hub360.cc/web/image/product.template/12463/image_1920?unique=b83d2f5" alt="DHT22 Module" class="object-contain w-full h-full">
+                        </div>
+                        <div>
+                            <h3 class="font-bold text-lg text-[#0C3B6E]">DHT22 Digital Sensor Module</h3>
+                            <p class="text-xs text-[#1A5FA8] uppercase font-bold mb-1">Thermal Feedback • ₦3,200</p>
+                            <p class="text-sm leading-snug">Calibrated single-wire digital output (±0.5°C accuracy). Eliminates the need for an external ADC chip while measuring rack thermodynamics.</p>
+                        </div>
+                    </div>
+
+                    <!-- 4-Channel Relay -->
+                    <div class="bg-white border border-[#A8C4DC] p-5 flex gap-5 items-center shadow-sm">
+                        <div class="w-24 h-24 bg-[#F5F7FA] border border-[#A8C4DC] flex-shrink-0 flex items-center justify-center overflow-hidden p-1">
+                            <img src="https://hub360.cc/web/image/product.template/11961/image_1920?unique=f0a52e4" alt="4-Channel Relay Module" class="object-contain w-full h-full">
+                        </div>
+                        <div>
+                            <h3 class="font-bold text-lg text-[#0C3B6E]">4-Channel Opto Relay Module</h3>
+                            <p class="text-xs text-[#1A5FA8] uppercase font-bold mb-1">Power Isolation • ₦5,150</p>
+                            <p class="text-sm leading-snug">Electromechanical SPDT relays rated 10A @ 30VDC. Chosen over AC-only SSRs so 12V DC loads unlatch cleanly; optocouplers protect Pi GPIO pins.</p>
+                        </div>
+                    </div>
+
+                    <!-- 12V Cooling Fans -->
+                    <div class="bg-white border border-[#A8C4DC] p-5 flex gap-5 items-center shadow-sm">
+                        <div class="w-24 h-24 bg-[#F5F7FA] border border-[#A8C4DC] flex-shrink-0 flex items-center justify-center overflow-hidden p-1">
+                            <img src="https://hub360.cc/web/image/product.template/12435/image_1920?unique=f0a52e4" alt="12V DC Cooling Fan" class="object-contain w-full h-full">
+                        </div>
+                        <div>
+                            <h3 class="font-bold text-lg text-[#0C3B6E]">2x 12V DC Cooling Fans</h3>
+                            <p class="text-xs text-[#1A5FA8] uppercase font-bold mb-1">Active Exhaust • ₦2,900 Pair</p>
+                            <p class="text-sm leading-snug">Mounted in a push-pull cross-ventilation geometry (bottom cool intake, top hot exhaust) to establish laminar airflow across the rack.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- SLIDE 4: Hardware Procurement (Power, Bus & Enclosure) -->
+        <div class="slide" data-section="Hardware Sourcing (Support)">
+            <div class="w-full max-w-5xl">
+                <h2 class="font-playfair font-bold text-4xl text-[#0C3B6E] mb-2">Hardware Procurement (Support)</h2>
+                <p class="text-[#1A5FA8] mb-8 uppercase tracking-widest text-sm font-bold">Power Distribution, Signal Bus &amp; Rack Enclosure</p>
+                
+                <div class="grid grid-cols-2 gap-6">
+                    <!-- 12V 5A Power Supply -->
+                    <div class="bg-white border border-[#A8C4DC] p-5 flex gap-5 items-center shadow-sm">
+                        <div class="w-24 h-24 bg-[#F5F7FA] border border-[#A8C4DC] flex-shrink-0 flex items-center justify-center overflow-hidden p-1">
+                            <img src="https://hub360.cc/web/image/product.template/13789/image_1920?unique=41960b2" alt="12V 5A Power Supply" class="object-contain w-full h-full">
+                        </div>
+                        <div>
+                            <h3 class="font-bold text-lg text-[#0C3B6E]">12V 5A Regulated Power Supply</h3>
+                            <p class="text-xs text-[#1A5FA8] uppercase font-bold mb-1">Actuator Power Rail • ₦12,000</p>
+                            <p class="text-sm leading-snug">Dedicated 60W DC supply isolates inductive fan startup spikes from the Raspberry Pi's 5V logic rail, preventing processor brownouts.</p>
+                        </div>
+                    </div>
+
+                    <!-- MB102 Breadboard -->
+                    <div class="bg-white border border-[#A8C4DC] p-5 flex gap-5 items-center shadow-sm">
+                        <div class="w-24 h-24 bg-[#F5F7FA] border border-[#A8C4DC] flex-shrink-0 flex items-center justify-center overflow-hidden p-1">
+                            <img src="https://hub360.cc/web/image/product.template/11890/image_1920?unique=f0a52e4" alt="Breadboard MB102" class="object-contain w-full h-full">
+                        </div>
+                        <div>
+                            <h3 class="font-bold text-lg text-[#0C3B6E]">MB102 Breadboard &amp; Resistors</h3>
+                            <p class="text-xs text-[#1A5FA8] uppercase font-bold mb-1">Signal Conditioning • ₦2,000</p>
+                            <p class="text-sm leading-snug">830-tie-point distribution board housing the 10kΩ pull-up resistor for DHT22 data stability and 220Ω current-limiting status LED resistors.</p>
+                        </div>
+                    </div>
+
+                    <!-- Jumper Wires -->
+                    <div class="bg-white border border-[#A8C4DC] p-5 flex gap-5 items-center shadow-sm">
+                        <div class="w-24 h-24 bg-[#F5F7FA] border border-[#A8C4DC] flex-shrink-0 flex items-center justify-center overflow-hidden p-1">
+                            <img src="https://hub360.cc/web/image/product.template/10781/image_1920?unique=f0a52e4" alt="Jumper Wire Set" class="object-contain w-full h-full">
+                        </div>
+                        <div>
+                            <h3 class="font-bold text-lg text-[#0C3B6E]">M-M &amp; M-F Jumper Ribbon Sets</h3>
+                            <p class="text-xs text-[#1A5FA8] uppercase font-bold mb-1">GPIO Interfacing • Included in Lot</p>
+                            <p class="text-sm leading-snug">Color-coded 2.54mm pitch ribbon cables routing 3.3V GPIO signals from the 40-pin Raspberry Pi header to the breadboard and opto-relay.</p>
+                        </div>
+                    </div>
+
+                    <!-- 50L-60L Transparent Box -->
+                    <div class="bg-white border border-[#A8C4DC] p-5 flex gap-5 items-center shadow-sm">
+                        <div class="w-24 h-24 bg-[#F5F7FA] border border-[#A8C4DC] flex-shrink-0 flex items-center justify-center overflow-hidden p-1">
+                            <img src="container.jpg" alt="50L-60L Transparent Utility Box" class="object-contain w-full h-full">
+                        </div>
+                        <div>
+                            <h3 class="font-bold text-lg text-[#0C3B6E]">50L–60L Transparent Utility Box</h3>
+                            <p class="text-xs text-[#1A5FA8] uppercase font-bold mb-1">Server Rack Chassis • ₦15,000</p>
+                            <p class="text-sm leading-snug">Replaces scarce thick acrylic sheets. Shatter-resistant when drilling fan ports, airtight clip-on lid, and full visibility for exhibition demos.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- SLIDE 5: Bill of Materials (Electronics Breakdown) -->
+        <div class="slide" data-section="Bill of Materials (1/2)">
+            <div class="w-full max-w-5xl">
+                <div class="flex items-end justify-between mb-6">
+                    <div>
+                        <h2 class="font-playfair font-bold text-4xl text-[#0C3B6E] mb-1">Bill of Materials: Electronics</h2>
+                        <p class="text-[#1A5FA8] uppercase tracking-widest text-sm font-bold">Single-Vendor Verified Sourcing via Hub360 Nigeria</p>
+                    </div>
+                    <div class="bg-[#1A5FA8] text-white px-4 py-2 rounded-sm text-xs font-fira font-bold shadow-sm">
+                        HUB360 CART SUBTOTAL: ₦121,250
+                    </div>
+                </div>
+
+                <div class="bg-white border border-[#A8C4DC] rounded-sm shadow-sm overflow-hidden">
+                    <table class="w-full text-left border-collapse">
+                        <thead>
+                            <tr class="bg-[#0C3B6E] text-white text-xs uppercase tracking-wider">
+                                <th class="py-3.5 px-5 font-bold">Component</th>
+                                <th class="py-3.5 px-3 font-bold text-center">Qty</th>
+                                <th class="py-3.5 px-5 font-bold">Description / Role</th>
+                                <th class="py-3.5 px-4 font-bold">Purchase Link</th>
+                                <th class="py-3.5 px-5 font-bold text-right">Price (₦)</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-gray-200 text-sm">
+                            <tr class="hover:bg-[#F5F7FA]">
+                                <td class="py-3 px-5 font-bold text-[#0C3B6E]">Raspberry Pi 4 (1GB)</td>
+                                <td class="py-3 px-3 text-center font-fira">1</td>
+                                <td class="py-3 px-5">Main controller, web server, and logic processor</td>
+                                <td class="py-3 px-4"><a href="https://hub360.cc/shop/0701-raspberry-pi-4-1gb-ram-10603?search=raspberry+pi+4&order=name+asc" target="_blank" class="text-[#1A5FA8] underline font-fira text-xs">Hub360 Link ↗</a></td>
+                                <td class="py-3 px-5 text-right font-fira font-semibold">96,000</td>
+                            </tr>
+                            <tr class="hover:bg-[#F5F7FA]">
+                                <td class="py-3 px-5 font-bold text-[#0C3B6E]">DHT22 Sensor</td>
+                                <td class="py-3 px-3 text-center font-fira">1</td>
+                                <td class="py-3 px-5">High-precision temperature &amp; humidity monitoring</td>
+                                <td class="py-3 px-4"><a href="https://hub360.cc/shop/0655-dht22-module-12463?search=dht22&order=name+asc" target="_blank" class="text-[#1A5FA8] underline font-fira text-xs">Hub360 Link ↗</a></td>
+                                <td class="py-3 px-5 text-right font-fira font-semibold">3,200</td>
+                            </tr>
+                            <tr class="hover:bg-[#F5F7FA]">
+                                <td class="py-3 px-5 font-bold text-[#0C3B6E]">12V High-RPM PC Fans</td>
+                                <td class="py-3 px-3 text-center font-fira">2</td>
+                                <td class="py-3 px-5">Active exhaust &amp; intake (₦1,450 each)</td>
+                                <td class="py-3 px-4"><a href="https://hub360.cc/shop/0627-12v-dc-cooling-fan-12435?search=12v+fan&order=name+asc" target="_blank" class="text-[#1A5FA8] underline font-fira text-xs">Hub360 Link ↗</a></td>
+                                <td class="py-3 px-5 text-right font-fira font-semibold">2,900</td>
+                            </tr>
+                            <tr class="hover:bg-[#F5F7FA]">
+                                <td class="py-3 px-5 font-bold text-[#0C3B6E]">4-Channel Relay Module</td>
+                                <td class="py-3 px-3 text-center font-fira">1</td>
+                                <td class="py-3 px-5">Optoisolated switching for 12V power via 3.3V GPIO</td>
+                                <td class="py-3 px-4"><a href="https://hub360.cc/shop/0153-4-channel-relay-module-5v-dc-opto-isolated-inputs-10a-250vac-30vdc-11961?search=4+channel+relay+&order=name+asc" target="_blank" class="text-[#1A5FA8] underline font-fira text-xs">Hub360 Link ↗</a></td>
+                                <td class="py-3 px-5 text-right font-fira font-semibold">5,150</td>
+                            </tr>
+                            <tr class="hover:bg-[#F5F7FA]">
+                                <td class="py-3 px-5 font-bold text-[#0C3B6E]">12V 5A Power Supply</td>
+                                <td class="py-3 px-3 text-center font-fira">1</td>
+                                <td class="py-3 px-5">Dedicated power rail for cooling fans</td>
+                                <td class="py-3 px-4"><a href="https://hub360.cc/shop/2506-12v-5a-power-supply-13789?search=12v+5a+power+supply&order=name+asc" target="_blank" class="text-[#1A5FA8] underline font-fira text-xs">Hub360 Link ↗</a></td>
+                                <td class="py-3 px-5 text-right font-fira font-semibold">12,000</td>
+                            </tr>
+                            <tr class="hover:bg-[#F5F7FA]">
+                                <td class="py-3 px-5 font-bold text-[#0C3B6E]">Breadboard, Jumpers &amp; Resistors</td>
+                                <td class="py-3 px-3 text-center font-fira">1 Lot</td>
+                                <td class="py-3 px-5">MB102 breadboard, M-M/M-F ribbon cables &amp; pull-up resistors</td>
+                                <td class="py-3 px-4"><a href="https://hub360.cc/shop/0082-breadboard-mb102-11890?search=breadboard&order=name+asc" target="_blank" class="text-[#1A5FA8] underline font-fira text-xs">Hub360 Link ↗</a></td>
+                                <td class="py-3 px-5 text-right font-fira font-semibold">2,000</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- SLIDE 6: Total Cost Implications & Budget Buffer -->
+        <div class="slide" data-section="Bill of Materials (2/2)">
+            <div class="w-full max-w-5xl">
+                <h2 class="font-playfair font-bold text-4xl text-[#0C3B6E] mb-2">Total Cost Implications &amp; Budget Buffer</h2>
+                <p class="text-[#1A5FA8] mb-8 uppercase tracking-widest text-sm font-bold">Complete Project Expenditure Under the ₦200,000 Cap</p>
+
+                <div class="grid grid-cols-12 gap-8 items-center">
+                    <!-- Left 7 Cols: Structural + Summary Table -->
+                    <div class="col-span-7 bg-white border border-[#A8C4DC] rounded-sm shadow-sm overflow-hidden">
+                        <table class="w-full text-left border-collapse">
+                            <thead>
+                                <tr class="bg-[#0C3B6E] text-white text-xs uppercase tracking-wider">
+                                    <th class="py-3.5 px-5 font-bold">Cost Category</th>
+                                    <th class="py-3.5 px-4 font-bold">Source</th>
+                                    <th class="py-3.5 px-5 font-bold text-right">Amount (₦)</th>
+                                </tr>
+                            </thead>
+                            <tbody class="divide-y divide-gray-200 text-sm">
+                                <tr>
+                                    <td class="py-4 px-5 font-bold text-[#0C3B6E]">Electronics Subtotal (All Core + Support Items)</td>
+                                    <td class="py-4 px-4 font-fira text-xs text-[#1A5FA8]">Hub360 Cart</td>
+                                    <td class="py-4 px-5 text-right font-fira font-bold">129,500</td>
+                                </tr>
+                                <tr>
+                                    <td class="py-4 px-5 font-bold text-[#0C3B6E]">Large Transparent Plastic Storage Box (~50L–60L)</td>
+                                    <td class="py-4 px-4 font-fira text-xs text-[#0C3B6E]">Physical Market</td>
+                                    <td class="py-4 px-5 text-right font-fira font-bold">15,000</td>
+                                </tr>
+                                <tr>
+                                    <td class="py-4 px-5 font-bold text-[#0C3B6E]">Transport &amp; Waybill Logistics</td>
+                                    <td class="py-4 px-4 font-fira text-xs text-[#0C3B6E]">Logistics</td>
+                                    <td class="py-4 px-5 text-right font-fira font-bold">5,000</td>
+                                </tr>
+                            </tbody>
+                            <tfoot>
+                                <tr class="bg-[#1A5FA8] text-white">
+                                    <td class="py-4 px-5 font-bold uppercase text-xs tracking-wider" colspan="2">Grand Total Project Cost</td>
+                                    <td class="py-4 px-5 text-right font-fira font-bold text-xl">₦149,500</td>
+                                </tr>
+                            </tfoot>
+                        </table>
+                    </div>
+
+                    <!-- Right 5 Cols: Financial Highlights -->
+                    <div class="col-span-5 flex flex-col gap-4">
+                        <div class="bg-white border border-[#A8C4DC] p-5 shadow-sm">
+                            <p class="text-[#1A5FA8] text-xs uppercase mb-1 font-bold">Unallocated Contingency Reserve</p>
+                            <p class="text-3xl font-playfair font-bold text-[#0C3B6E]">₦50,500 Saved</p>
+                            <p class="text-xs font-fira text-emerald-700 mt-1">25.3% safely below the ₦200,000 ceiling</p>
+                        </div>
+                        <div class="bg-[#0C3B6E] p-5 shadow-md border-l-4 border-[#1A5FA8] text-white">
+                            <p class="text-[#A8C4DC] text-xs uppercase mb-1 font-bold">Per-Student Contribution (10 Members)</p>
+                            <p class="text-3xl font-playfair font-bold mb-1">₦14,950 / Student</p>
+                            <p class="text-xs text-[#C8DBEC]">Highly affordable individual split with zero hidden fabrication costs.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- SLIDE 7: System Architecture (Closed-Loop Block Diagram) -->
+        <div class="slide" data-section="System Architecture">
+            <div class="w-full max-w-5xl">
+                <h2 class="font-playfair font-bold text-4xl text-[#0C3B6E] mb-1">Closed-Loop System Architecture</h2>
+                <p class="text-[#1A5FA8] mb-6 uppercase tracking-widest text-sm font-bold">Sense → Compute → Actuate + Asynchronous WebSocket Telemetry</p>
+
+                <div class="bg-white border border-[#A8C4DC] p-6 rounded-sm shadow-sm">
+                    <svg viewBox="0 0 820 340" class="w-full h-[320px]">
+                        <defs>
+                            <marker id="arrow-blue" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+                                <polygon points="0 0, 10 3.5, 0 7" fill="#1A5FA8"></polygon>
+                            </marker>
+                            <marker id="arrow-navy" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+                                <polygon points="0 0, 10 3.5, 0 7" fill="#0C3B6E"></polygon>
+                            </marker>
+                        </defs>
+
+                        <!-- FastAPI Web Dashboard (Top Node) -->
+                        <rect x="270" y="10" width="260" height="60" fill="#F5F7FA" stroke="#1A5FA8" stroke-width="2" rx="3"></rect>
+                        <text x="400" y="36" text-anchor="middle" fill="#0C3B6E" font-size="15" font-weight="bold">FastAPI Web Dashboard</text>
+                        <text x="400" y="55" text-anchor="middle" fill="#1A5FA8" font-size="11" font-family="Fira Code, monospace">WebSocket Live UI + Manual Override</text>
+
+                        <!-- Bidirectional MQTT Arrows -->
+                        <path d="M 365 130 L 365 72" stroke="#1A5FA8" stroke-width="2" fill="none" marker-end="url(#arrow-blue)"></path>
+                        <text x="295" y="105" fill="#0C3B6E" font-size="10" font-family="Fira Code, monospace">MQTT Publish</text>
+
+                        <path d="M 435 72 L 435 130" stroke="#0C3B6E" stroke-width="2" stroke-dasharray="4 3" fill="none" marker-end="url(#arrow-navy)"></path>
+                        <text x="445" y="105" fill="#1A5FA8" font-size="10" font-family="Fira Code, monospace">Override Cmd</text>
+
+                        <!-- Summing / Hysteresis Comparator -->
+                        <circle cx="110" cy="170" r="32" fill="#F5F7FA" stroke="#1A5FA8" stroke-width="2.5"></circle>
+                        <text x="110" y="167" text-anchor="middle" fill="#0C3B6E" font-size="13" font-weight="bold">T_set</text>
+                        <text x="110" y="183" text-anchor="middle" fill="#1A5FA8" font-size="11" font-family="Fira Code, monospace">30°C±2°</text>
+
+                        <!-- Arrow: Comparator to Pi -->
+                        <path d="M 142 170 L 270 170" stroke="#1A5FA8" stroke-width="2.5" fill="none" marker-end="url(#arrow-blue)"></path>
+                        <text x="206" y="160" text-anchor="middle" fill="#0C3B6E" font-size="11" font-weight="bold">Error (ΔT)</text>
+
+                        <!-- Raspberry Pi 4 Controller -->
+                        <rect x="270" y="130" width="260" height="80" fill="#0C3B6E" rx="4"></rect>
+                        <text x="400" y="160" text-anchor="middle" fill="#FFFFFF" font-size="16" font-weight="bold">Raspberry Pi 4 (1GB)</text>
+                        <text x="400" y="180" text-anchor="middle" fill="#C8DBEC" font-size="11" font-family="Fira Code, monospace">Python Hysteresis Controller</text>
+                        <text x="400" y="197" text-anchor="middle" fill="#A8C4DC" font-size="10" font-family="Fira Code, monospace">3.3V GPIO Trigger Out</text>
+
+                        <!-- Arrow: Pi to Relay -->
+                        <path d="M 530 170 L 620 170" stroke="#1A5FA8" stroke-width="2.5" fill="none" marker-end="url(#arrow-blue)"></path>
+                        <text x="575" y="160" text-anchor="middle" fill="#1A5FA8" font-size="10" font-family="Fira Code, monospace">3.3V Logic</text>
+
+                        <!-- Opto Relay + 12V Fans -->
+                        <rect x="620" y="130" width="175" height="80" fill="#FFFFFF" stroke="#1A5FA8" stroke-width="2" rx="4"></rect>
+                        <text x="707" y="156" text-anchor="middle" fill="#0C3B6E" font-size="14" font-weight="bold">4-Ch Opto Relay</text>
+                        <text x="707" y="175" text-anchor="middle" fill="#1A5FA8" font-size="11" font-weight="bold">+ 12V 5A DC Rail</text>
+                        <text x="707" y="194" text-anchor="middle" fill="#0C3B6E" font-size="11" font-family="Fira Code, monospace">2x Cooling Fans</text>
+
+                        <!-- Feedback Loop Path from Fans to DHT22 to Comparator -->
+                        <path d="M 707 210 L 707 295 L 510 295" stroke="#1A5FA8" stroke-width="2" fill="none" marker-end="url(#arrow-blue)"></path>
+                        <text x="625" y="285" text-anchor="middle" fill="#0C3B6E" font-size="11">Forced Airflow (60L Rack)</text>
+
+                        <!-- DHT22 Sensor Node -->
+                        <rect x="290" y="265" width="220" height="55" fill="#FFFFFF" stroke="#0C3B6E" stroke-width="2" rx="3"></rect>
+                        <text x="400" y="290" text-anchor="middle" fill="#0C3B6E" font-size="14" font-weight="bold">DHT22 Sensor + 10kΩ</text>
+                        <text x="400" y="308" text-anchor="middle" fill="#1A5FA8" font-size="11" font-family="Fira Code, monospace">Polls every 2.0s (Digital)</text>
+
+                        <!-- Arrow: DHT22 to Summing Junction -->
+                        <path d="M 290 295 L 110 295 L 110 204" stroke="#1A5FA8" stroke-width="2" fill="none" marker-end="url(#arrow-blue)"></path>
+                        <text x="195" y="285" text-anchor="middle" fill="#1A5FA8" font-size="11" font-family="Fira Code, monospace">Measured Temp (-)</text>
+                    </svg>
+                </div>
+            </div>
+        </div>
+
+        <!-- SLIDE 8: Control Algorithm (Deadband Hysteresis & Fault Tolerance) -->
+        <div class="slide" data-section="Control Logic">
+            <div class="w-full max-w-5xl">
+                <h2 class="font-playfair font-bold text-4xl text-[#0C3B6E] mb-2">Hysteresis Control &amp; Fault Tolerance</h2>
+                <p class="text-[#1A5FA8] mb-8 uppercase tracking-widest text-sm font-bold">Preventing Relay Chattering &amp; Dropped Sensor Packets</p>
+
+                <div class="grid grid-cols-12 gap-8 items-center">
+                    <div class="col-span-7">
+                        <p class="text-xs text-[#1A5FA8] mb-2 font-fira font-bold">In [1]: Python Deadband Hysteresis Loop (30°C ± 2°C)</p>
+                        <div class="jupyter-cell font-fira text-sm leading-relaxed">
+<pre><code><span class="kw">TARGET_TEMP</span> = <span class="nu">30.0</span>  <span class="cm"># °C Setpoint</span>
+<span class="kw">DEADBAND</span>    = <span class="nu">2.0</span>   <span class="cm"># ±2.0°C Hysteresis Margin</span>
+
+<span class="kw">try</span>:
+    temp, hum = dht22.<span class="fn">read_retry</span>()
+    <span class="kw">if</span> temp &gt;= (<span class="kw">TARGET_TEMP</span> + <span class="kw">DEADBAND</span>):
+        relay_fans.<span class="fn">on</span>()   <span class="cm"># Trigger ON at &gt;= 32.0°C</span>
+    <span class="kw">elif</span> temp &lt;= (<span class="kw">TARGET_TEMP</span> - <span class="kw">DEADBAND</span>):
+        relay_fans.<span class="fn">off</span>()  <span class="cm"># Trigger OFF at &lt;= 28.0°C</span>
+<span class="kw">except</span> ChecksumError:
+    <span class="fn">retain_previous_state</span>() <span class="cm"># Ignore glitch</span></code></pre>
+                        </div>
+                    </div>
+
+                    <div class="col-span-5 flex flex-col gap-4">
+                        <div class="bg-white border border-[#A8C4DC] p-5 shadow-sm">
+                            <h3 class="font-bold text-sm text-[#1A5FA8] uppercase mb-1">1. Mechanical Relay Protection</h3>
+                            <p class="text-sm leading-relaxed text-[#0C3B6E]">
+                                A naive <span class="font-fira text-[#1A5FA8]">if temp &gt; 30</span> check causes rapid clicking ("chattering") around 29.9°C–30.1°C. Our <strong>4°C deadband window</strong> preserves relay contact life.
+                            </p>
+                        </div>
+                        <div class="bg-white border border-[#A8C4DC] p-5 shadow-sm">
+                            <h3 class="font-bold text-sm text-[#1A5FA8] uppercase mb-1">2. Exception-Safe Polling</h3>
+                            <p class="text-sm leading-relaxed text-[#0C3B6E]">
+                                Transient timing glitches on the DHT22 single-wire bus are caught cleanly, retaining the last valid state in memory without crashing the loop.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- SLIDE 9: Project Feasibility Assessment -->
+        <div class="slide" data-section="Project Feasibility">
+            <div class="w-full max-w-5xl">
+                <h2 class="font-playfair font-bold text-4xl text-[#0C3B6E] mb-2">Project Feasibility Assessment</h2>
+                <p class="text-[#1A5FA8] mb-8 uppercase tracking-widest text-sm font-bold">Evaluating Technical, Financial &amp; Operational Viability</p>
+
+                <div class="grid grid-cols-3 gap-6">
+                    <!-- Technical -->
+                    <div class="bg-white border border-[#A8C4DC] border-t-4 border-t-[#1A5FA8] p-6 rounded-sm shadow-sm">
+                        <p class="text-xs font-fira uppercase text-[#1A5FA8] font-bold mb-2">01 // Technical</p>
+                        <h3 class="font-playfair font-bold text-2xl text-[#0C3B6E] mb-3">Zero Supply Blockers</h3>
+                        <p class="text-sm text-[#0C3B6E] leading-relaxed">
+                            Replacing scarce thick acrylic sheets with a heavy-duty <strong>60L transparent polypropylene container</strong> guarantees immediate local availability and shatter-free drilling for fan ports. Pure digital sensing eliminates external ADC chips.
+                        </p>
+                    </div>
+
+                    <!-- Financial -->
+                    <div class="bg-white border border-[#A8C4DC] border-t-4 border-t-[#1A5FA8] p-6 rounded-sm shadow-sm">
+                        <p class="text-xs font-fira uppercase text-[#1A5FA8] font-bold mb-2">02 // Financial</p>
+                        <h3 class="font-playfair font-bold text-2xl text-[#0C3B6E] mb-3">29.4% Safety Buffer</h3>
+                        <p class="text-sm text-[#0C3B6E] leading-relaxed">
+                            Selecting the headless 1GB Raspberry Pi 4 (₦96,000) keeps total electronics at <strong>₦129,500</strong> and overall project spend at <strong>₦149,500</strong>—leaving <strong>₦50,500</strong> in reserve under the ₦200,000 budget cap.
+                        </p>
+                    </div>
+
+                    <!-- Operational -->
+                    <div class="bg-white border border-[#A8C4DC] border-t-4 border-t-[#1A5FA8] p-6 rounded-sm shadow-sm">
+                        <p class="text-xs font-fira uppercase text-[#1A5FA8] font-bold mb-2">03 // Operational</p>
+                        <h3 class="font-playfair font-bold text-2xl text-[#0C3B6E] mb-3">Coursework Friendly</h3>
+                        <p class="text-sm text-[#0C3B6E] leading-relaxed">
+                            All electronic parts come from a single verified <strong>Hub360</strong> cart. Strictly decoupled software/hardware modules allow our 10-person team to build in parallel alongside our primary semester project.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- SLIDE 10: 10-Student Work Breakdown Structure (WBS) -->
+        <div class="slide" data-section="Team Allocation">
+            <div class="w-full max-w-5xl">
+                <h2 class="font-playfair font-bold text-4xl text-[#0C3B6E] mb-2">10-Student Parallel Work Breakdown</h2>
+                <p class="text-[#1A5FA8] mb-8 uppercase tracking-widest text-sm font-bold">Four Independent Sub-Teams Preventing Integration Bottlenecks</p>
+
+                <div class="grid grid-cols-2 gap-6">
+                    <div class="bg-white border border-[#A8C4DC] border-l-4 border-l-[#0C3B6E] p-6 shadow-sm">
+                        <div class="flex justify-between items-center mb-2">
+                            <span class="text-xs font-fira font-bold uppercase text-[#1A5FA8]">Sub-Team A</span>
+                            <span class="bg-[#F5F7FA] border border-[#A8C4DC] px-2.5 py-0.5 text-xs font-fira font-bold">2 Members</span>
+                        </div>
+                        <h3 class="font-playfair font-bold text-2xl text-[#0C3B6E] mb-2">Mechanical &amp; Enclosure CAD</h3>
+                        <p class="text-sm leading-relaxed">Model cross-ventilation airflow geometry in Fusion 360, drill intake/exhaust ports on the 60L transparent container, and mount internal sensor standoffs away from direct airflow.</p>
+                    </div>
+
+                    <div class="bg-white border border-[#A8C4DC] border-l-4 border-l-[#1A5FA8] p-6 shadow-sm">
+                        <div class="flex justify-between items-center mb-2">
+                            <span class="text-xs font-fira font-bold uppercase text-[#1A5FA8]">Sub-Team B</span>
+                            <span class="bg-[#F5F7FA] border border-[#A8C4DC] px-2.5 py-0.5 text-xs font-fira font-bold">3 Members</span>
+                        </div>
+                        <h3 class="font-playfair font-bold text-2xl text-[#0C3B6E] mb-2">Power &amp; Hardware Interfacing</h3>
+                        <p class="text-sm leading-relaxed">Wire the 12V 5A power supply to the 4-channel opto-relay, assemble the 10kΩ pull-up circuit on the MB102 breadboard, and verify 3.3V GPIO isolation.</p>
+                    </div>
+
+                    <div class="bg-white border border-[#A8C4DC] border-l-4 border-l-[#1A5FA8] p-6 shadow-sm">
+                        <div class="flex justify-between items-center mb-2">
+                            <span class="text-xs font-fira font-bold uppercase text-[#1A5FA8]">Sub-Team C</span>
+                            <span class="bg-[#F5F7FA] border border-[#A8C4DC] px-2.5 py-0.5 text-xs font-fira font-bold">2 Members</span>
+                        </div>
+                        <h3 class="font-playfair font-bold text-2xl text-[#0C3B6E] mb-2">Embedded Control Logic</h3>
+                        <p class="text-sm leading-relaxed">Develop the Python sensor polling script, implement checksum error recovery, and tune the deadband hysteresis state machine (`28°C–32°C`).</p>
+                    </div>
+
+                    <div class="bg-white border border-[#A8C4DC] border-l-4 border-l-[#0C3B6E] p-6 shadow-sm">
+                        <div class="flex justify-between items-center mb-2">
+                            <span class="text-xs font-fira font-bold uppercase text-[#1A5FA8]">Sub-Team D</span>
+                            <span class="bg-[#F5F7FA] border border-[#A8C4DC] px-2.5 py-0.5 text-xs font-fira font-bold">3 Members</span>
+                        </div>
+                        <h3 class="font-playfair font-bold text-2xl text-[#0C3B6E] mb-2">Backend &amp; Web Telemetry</h3>
+                        <p class="text-sm leading-relaxed">Configure the Mosquitto MQTT broker, build the asynchronous FastAPI server, and design the real-time WebSocket dashboard with manual fan override buttons.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- SLIDE 11: Usefulness for Departmental Demo & Showcase -->
+        <div class="slide" data-section="Demo & Showcase Value">
+            <div class="w-full max-w-5xl">
+                <h2 class="font-playfair font-bold text-4xl text-[#0C3B6E] mb-2">Departmental Demo &amp; Showcase Value</h2>
+                <p class="text-[#1A5FA8] mb-6 uppercase tracking-widest text-sm font-bold">Why This Prototype Excels on the Exhibition Floor</p>
+
+                <div class="grid grid-cols-12 gap-8 items-center">
+                    <!-- Left 7 Cols: 3 Showcase Pillars -->
+                    <div class="col-span-7 flex flex-col gap-4">
+                        <div class="bg-white border border-[#A8C4DC] p-4 rounded-sm shadow-sm">
+                            <h3 class="font-playfair font-bold text-xl text-[#0C3B6E] mb-1">1. Instant Tactile &amp; Visual Feedback</h3>
+                            <p class="text-sm text-[#0C3B6E] leading-relaxed">
+                                Examiners can introduce a warm heat source inside the transparent rack, watch the FastAPI telemetry graph spike live on their phone, and immediately hear the physical relay click and the 12V fans spin up.
+                            </p>
+                        </div>
+                        <div class="bg-white border border-[#A8C4DC] p-4 rounded-sm shadow-sm">
+                            <h3 class="font-playfair font-bold text-xl text-[#0C3B6E] mb-1">2. Direct Data-Center Relevance</h3>
+                            <p class="text-sm text-[#0C3B6E] leading-relaxed">
+                                Models mission-critical server rack thermal throttling prevention used in enterprise telecommunications and cloud infrastructure.
+                            </p>
+                        </div>
+                        <div class="bg-white border border-[#A8C4DC] p-4 rounded-sm shadow-sm">
+                            <h3 class="font-playfair font-bold text-xl text-[#0C3B6E] mb-1">3. Permanent Departmental Teaching Rig</h3>
+                            <p class="text-sm text-[#0C3B6E] leading-relaxed">
+                                The transparent, modular enclosure remains a reusable laboratory demonstrator for junior classes learning GPIO interfacing and IoT telemetry.
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- Right 5 Cols: Interactive Simulator -->
+                    <div class="col-span-5 bg-[#0C3B6E] text-white p-6 rounded-sm shadow-lg border-t-4 border-[#1A5FA8]">
+                        <div class="flex items-center justify-between border-b border-[#1A5FA8] pb-3 mb-4">
+                            <div>
+                                <p class="text-[10px] font-fira uppercase tracking-widest text-[#A8C4DC]">Live Demo Simulator</p>
+                                <h3 class="font-playfair font-bold text-xl">FastAPI Rack Console</h3>
+                            </div>
+                            <span id="simStatusBadge" class="px-2 py-0.5 bg-emerald-500/20 border border-emerald-400 text-emerald-300 font-fira text-[11px] rounded-sm">IDLE // OK</span>
+                        </div>
+
+                        <div class="grid grid-cols-2 gap-3 mb-4">
+                            <div class="bg-white/10 border border-[#A8C4DC]/30 p-3 rounded-sm">
+                                <p class="text-[10px] font-fira text-[#C8DBEC] uppercase">DHT22 Temp</p>
+                                <p id="simTemp" class="font-fira font-bold text-2xl text-white mt-0.5">29.4°C</p>
+                            </div>
+                            <div class="bg-white/10 border border-[#A8C4DC]/30 p-3 rounded-sm">
+                                <p class="text-[10px] font-fira text-[#C8DBEC] uppercase">12V Fans</p>
+                                <p id="simFanState" class="font-fira font-bold text-lg text-[#A8C4DC] mt-1">OFF (0 RPM)</p>
+                            </div>
+                        </div>
+
+                        <div class="flex flex-col gap-2">
+                            <button onclick="simulateHeatSpike()" class="w-full py-2 px-3 bg-[#1A5FA8] hover:bg-[#2573c9] transition text-white font-bold text-xs uppercase tracking-wider rounded-sm border border-[#A8C4DC]/40">
+                                Simulate Heat Spike (33.6°C)
+                            </button>
+                            <button onclick="simulateCoolDown()" class="w-full py-2 px-3 bg-white/10 hover:bg-white/20 transition text-white font-bold text-xs uppercase tracking-wider rounded-sm border border-[#A8C4DC]/30">
+                                Simulate Cool Down (27.8°C)
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+        let currentSlide = 0;
+        const slides = document.querySelectorAll('.slide');
+        const slideBadge = document.getElementById('slideBadge');
+        const slideSectionTitle = document.getElementById('slideSectionTitle');
+        const slideDotsContainer = document.getElementById('slideDots');
+
+        function initDots() {
+            slideDotsContainer.innerHTML = '';
+            slides.forEach((_, idx) => {
+                const dot = document.createElement('button');
+                dot.setAttribute('aria-label', 'Go to slide ' + (idx + 1));
+                dot.className = idx === 0
+                    ? 'w-5 h-2 rounded-full bg-[#1A5FA8] transition-all'
+                    : 'w-2 h-2 rounded-full bg-[#A8C4DC] hover:bg-[#1A5FA8]/60 transition-all';
+                dot.onclick = () => showSlide(idx);
+                slideDotsContainer.appendChild(dot);
+            });
+        }
+
+        function showSlide(index) {
+            if (index < 0) index = 0;
+            if (index >= slides.length) index = slides.length - 1;
+
+            slides.forEach((s, i) => {
+                s.classList.toggle('active', i === index);
+            });
+
+            currentSlide = index;
+
+            const formattedNum = String(currentSlide + 1).padStart(2, '0');
+            const formattedTotal = String(slides.length).padStart(2, '0');
+            slideBadge.textContent = `${formattedNum} / ${formattedTotal}`;
+            slideSectionTitle.textContent = slides[currentSlide].getAttribute('data-section') || '';
+
+            const dots = slideDotsContainer.querySelectorAll('button');
+            dots.forEach((dot, idx) => {
+                dot.className = idx === currentSlide
+                    ? 'w-5 h-2 rounded-full bg-[#1A5FA8] transition-all'
+                    : 'w-2 h-2 rounded-full bg-[#A8C4DC] hover:bg-[#1A5FA8]/60 transition-all';
+            });
+        }
+
+        function nextSlide() { showSlide(currentSlide + 1); }
+        function prevSlide() { showSlide(currentSlide - 1); }
+
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowRight' || e.key === ' ') {
+                e.preventDefault();
+                nextSlide();
+            }
+            if (e.key === 'ArrowLeft') {
+                e.preventDefault();
+                prevSlide();
+            }
+        });
+
+        function simulateHeatSpike() {
+            document.getElementById('simTemp').textContent = '33.6°C';
+            document.getElementById('simTemp').className = 'font-fira font-bold text-2xl text-amber-300 mt-0.5';
+            document.getElementById('simFanState').textContent = 'ON (2400 RPM)';
+            document.getElementById('simFanState').className = 'font-fira font-bold text-lg text-emerald-300 mt-1';
+            const badge = document.getElementById('simStatusBadge');
+            badge.textContent = 'COOLING // ON';
+            badge.className = 'px-2 py-0.5 bg-amber-500/20 border border-amber-300 text-amber-200 font-fira text-[11px] rounded-sm';
+        }
+
+        function simulateCoolDown() {
+            document.getElementById('simTemp').textContent = '27.8°C';
+            document.getElementById('simTemp').className = 'font-fira font-bold text-2xl text-white mt-0.5';
+            document.getElementById('simFanState').textContent = 'OFF (0 RPM)';
+            document.getElementById('simFanState').className = 'font-fira font-bold text-lg text-[#A8C4DC] mt-1';
+            const badge = document.getElementById('simStatusBadge');
+            badge.textContent = 'IDLE // OK';
+            badge.className = 'px-2 py-0.5 bg-emerald-500/20 border border-emerald-400 text-emerald-300 font-fira text-[11px] rounded-sm';
+        }
+
+        initDots();
+    </script>
+</body>
+</html>
